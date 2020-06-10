@@ -61,7 +61,7 @@
 		</view>
 		<view class="tui-content-box">
 			<view class="tui-box tui-order-box">
-				<tui-list-cell :arrow="true" padding="0" :lineLeft="false" @click="href(4)">
+				<tui-list-cell :arrow="true" padding="0" :lineLeft="false" @click="goTo('order')">
 					<view class="tui-cell-header">
 						<view class="tui-cell-title">我的订单</view>
 						<view class="tui-cell-sub">查看全部订单</view>
@@ -235,7 +235,7 @@
 <script>
 import tuiIcon from '@/components/thorui/tui-icon/tui-icon.vue';
 import tuiLoadmore from '@/components/thorui/tui-loadmore/tui-loadmore.vue';
-import tuiNavigationBar from '@/components/thorui/tui-navigation-bar/tui-navigation-bar.vue'
+import tuiNavigationBar from '@/components/thorui/tui-navigation-bar/tui-navigation-bar.vue';
 import tuiButton from '@/components/thorui/tui-button/tui-button.vue';
 import tuiDivider from '@/components/thorui/tui-divider/tui-divider.vue';
 import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell.vue';
@@ -260,9 +260,6 @@ export default {
 		// #ifdef MP-ALIPAY
 		my.hideAddToDesktopMenu();
 		// #endif
-		
-		
-		console.log(obj)
 
 		// uni.getSystemInfo({
 		// 	success: (res) => {
@@ -273,95 +270,91 @@ export default {
 		// 		this.scrollH = res.windowWidth * 0.6
 		// 	}
 		// })
-		
-		
+
 		uni.getSystemInfo({
-			success: (res) => {
-						console.log(res);
-						this.width = obj.left || res.windowWidth;
-						this.height = obj.top ? (obj.top + obj.height + 8) : (res.statusBarHeight + 44);
-						
-						this.top = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight + 6);
-						this.scrollH = res.windowWidth * 0.6
+			success: res => {
+				console.log(res);
+				this.width = obj.left || res.windowWidth;
+				this.height = obj.top ? obj.top + obj.height + 8 : res.statusBarHeight + 44;
+
+				this.top = obj.top ? obj.top + (obj.height - 32) / 2 : res.statusBarHeight + 6;
+				this.scrollH = res.windowWidth * 0.6;
 			}
-		})
-		
-		
-		
-		
+		});
 	},
 	data() {
 		return {
-			webURL: "https://www.thorui.cn/wx",
+			webURL: 'https://www.thorui.cn/wx',
 			top: 0, //标题图标距离顶部距离
 			opcity: 0,
 			scrollTop: 0.5,
-			productList: [{
+			productList: [
+				{
 					img: 1,
-					name: "欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）",
+					name: '欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）',
 					sale: 599,
 					factory: 899,
 					payNum: 2342
 				},
 				{
 					img: 2,
-					name: "德国DMK进口牛奶  欧德堡（Oldenburger）超高温处理全脂纯牛奶1L*12盒",
+					name: '德国DMK进口牛奶  欧德堡（Oldenburger）超高温处理全脂纯牛奶1L*12盒',
 					sale: 29,
 					factory: 69,
 					payNum: 999
 				},
 				{
 					img: 3,
-					name: "【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红",
+					name: '【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红',
 					sale: 299,
 					factory: 699,
 					payNum: 666
 				},
 				{
 					img: 4,
-					name: "百雀羚套装女补水保湿护肤品",
+					name: '百雀羚套装女补水保湿护肤品',
 					sale: 1599,
 					factory: 2899,
 					payNum: 236
 				},
 				{
 					img: 5,
-					name: "百草味 肉干肉脯 休闲零食 靖江精制猪肉脯200g/袋",
+					name: '百草味 肉干肉脯 休闲零食 靖江精制猪肉脯200g/袋',
 					sale: 599,
 					factory: 899,
 					payNum: 2399
 				},
 				{
 					img: 6,
-					name: "短袖睡衣女夏季薄款休闲家居服短裤套装女可爱韩版清新学生两件套 短袖粉色长颈鹿 M码75-95斤",
+					name: '短袖睡衣女夏季薄款休闲家居服短裤套装女可爱韩版清新学生两件套 短袖粉色长颈鹿 M码75-95斤',
 					sale: 599,
 					factory: 899,
 					payNum: 2399
 				},
 				{
 					img: 1,
-					name: "欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜",
+					name: '欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜',
 					sale: 599,
 					factory: 899,
 					payNum: 2342
 				},
 				{
 					img: 2,
-					name: "德国DMK进口牛奶",
+					name: '德国DMK进口牛奶',
 					sale: 29,
 					factory: 69,
 					payNum: 999
 				},
 				{
 					img: 3,
-					name: "【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红",
+					name: '【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红',
 					sale: 299,
 					factory: 699,
 					payNum: 666
 				},
 				{
 					img: 4,
-					name: "百雀羚套装女补水保湿护肤品",
+					name: '百雀羚套装女补水保湿护肤品',
 					sale: 1599,
 					factory: 2899,
 					payNum: 236
@@ -370,54 +363,75 @@ export default {
 			pageIndex: 1,
 			loadding: false,
 			pullUpOn: true
-		}
+		};
 	},
 	methods: {
+		goTo(type) {
+			let url = '';
+			let query = {};
+			
+			switch (type) {
+				case 'order':
+					url = "/pages/order/index";
+					query = {
+						'status': 1
+					};
+					break;
+				default:
+					break;
+			}
+
+			this.$mRouter.push({
+				route: url,
+				query: query
+			});
+			
+		},
+
 		href(page) {
-			let url = "";
+			let url = '';
 			switch (page) {
 				case 2:
-					url = "/pages/setting/index"
+					url = '/pages/setting/index';
 					break;
 				case 3:
-					url = "/pages/ucenter/userinfo"
+					url = '/pages/ucenter/userinfo';
 					break;
 				case 4:
-					url = "/pages/order/index"
+					url = '/pages/order/index';
 					break;
 				case 6:
-					url = "/pages/coupon/index"
+					url = '/pages/coupon/index';
 					break;
 				case 7:
-					url = "/pages/message/message"
+					url = '/pages/message/message';
 					break;
 				case 8:
-					url = "/pages/myCoupon/myCoupon"
+					url = '/pages/myCoupon/myCoupon';
 					break;
 				case 10:
-					
 					this.$mRouter.push({
 						route: '/pages/webview/webview',
 						query: {
-							'url': "https://juejin.im"
+							url: 'https://juejin.im'
 						}
-					})
-					
+					});
+
 				default:
 					break;
 			}
 			if (url) {
 				uni.navigateTo({
 					url: url
-				})
+				});
 			} else {
-				this.tui.toast("功能尚未完善~")
+				this.tui.toast('功能尚未完善~');
 			}
 		},
 		detail: function() {
 			uni.navigateTo({
 				url: '../productDetail/productDetail'
-			})
+			});
 		},
 		initNavigation(e) {
 			this.opcity = e.opcity;
@@ -435,27 +449,27 @@ export default {
 	},
 	onPullDownRefresh() {
 		setTimeout(() => {
-			uni.stopPullDownRefresh()
-		}, 200)
+			uni.stopPullDownRefresh();
+		}, 200);
 	},
 	onReachBottom: function() {
 		if (!this.pullUpOn) return;
 		this.loadding = true;
 		if (this.pageIndex == 4) {
 			this.loadding = false;
-			this.pullUpOn = false
+			this.pullUpOn = false;
 		} else {
 			let loadData = JSON.parse(JSON.stringify(this.productList));
-			loadData = loadData.splice(0, 10)
+			loadData = loadData.splice(0, 10);
 			if (this.pageIndex == 1) {
 				loadData = loadData.reverse();
 			}
 			this.productList = this.productList.concat(loadData);
 			this.pageIndex = this.pageIndex + 1;
-			this.loadding = false
+			this.loadding = false;
 		}
 	}
-}
+};
 </script>
 
 <style>

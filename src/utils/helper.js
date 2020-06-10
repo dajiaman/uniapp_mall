@@ -20,7 +20,23 @@ export default {
 			icon
 		});
 	},
-	
+
+	/** 设置 购物车数量
+	 * @param {Object} num
+	 */
+	setCartNum(num) {
+		if (num === 0) {
+			uni.removeTabBarBadge({
+				index: 2
+			});
+		} else {
+			uni.setTabBarBadge({
+				index: 2,
+				text: num.toString()
+			})
+		}
+	},
+
 	/**
 	 * 显示 modal
 	 * @param {Object} title
@@ -311,16 +327,16 @@ export default {
 		textarea.remove();
 		return result;
 	},
-	
-	
+
+
 	tuiJsonp: function(url, callback, callbackname) {
-			// #ifdef H5
-			window[callbackname] = callback;
-			let tuiScript = document.createElement("script");
-			tuiScript.src = url;
-			tuiScript.type = "text/javascript";
-			document.head.appendChild(tuiScript);
-			document.head.removeChild(tuiScript);
-			// #endif
-		},
+		// #ifdef H5
+		window[callbackname] = callback;
+		let tuiScript = document.createElement("script");
+		tuiScript.src = url;
+		tuiScript.type = "text/javascript";
+		document.head.appendChild(tuiScript);
+		document.head.removeChild(tuiScript);
+		// #endif
+	},
 };

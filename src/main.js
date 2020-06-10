@@ -45,7 +45,7 @@ Vue.config.productionTip = false
 
 // 路由导航
 $mRouter.beforeEach((navType, to) => {
-	console.log(to);
+	console.log('路由to对象:', JSON.stringify(to));
 	if (to.route === undefined)
 		throw '路由钩子函数中没有找到to对象，路由信息:' + JSON.stringify(to);
 	if (to.route === $mRoutesConfig.login.path && store.getters.hasLogin) {
@@ -54,40 +54,16 @@ $mRouter.beforeEach((navType, to) => {
 		});
 		return;
 	}
-	// 过滤需要权限的页面
-	if (to.route.requiresAuth) {
 
-		if (store.getters.hasLogin) {
-			// 已经登录
-			uni[navType]({
-				url: $mHelper.objParseUrlAndParam(to.route.path, to.query)
-			});
-		} else {
-			console.log('未登录')
-			// 登录成功后的重定向地址和参数
-			let query = {
-				redirectUrl: to.route.path,
-				...to.query
-			};
-			// 没有登录 是否强制登录?
-			if (store.state.forcedLogin) {
-				uni.redirectTo({
-					url: $mHelper.objParseUrlAndParam($mRoutesConfig.login.path, query)
-				});
-			} else {
-				uni.navigateTo({
-					url: $mHelper.objParseUrlAndParam($mRoutesConfig.login.path, query)
-				});
-			}
-		}
-	} else {
-		uni[navType]({
-			url: $mHelper.objParseUrlAndParam(to.route, to.query)
-		});
-	}
+	uni[navType]({
+		url: $mHelper.objParseUrlAndParam(to.route, to.query)
+	});
+
 });
 
 App.mpType = 'app'
+
+Vue.prototype.LoginPath = '/pages/public/login';
 
 const app = new Vue({
 	store,

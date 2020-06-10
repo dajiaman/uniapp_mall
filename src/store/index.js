@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex';
+
+import {
+	http
+} from '@/utils/request';
+
 import {
 	getToken,
 	removeToken
 } from '@/utils/token';
 
 import {
-	getUserInfo, removeUserInfo
+	getUserInfo,
+	removeUserInfo
 } from '@/utils/userInfo.js';
 
 Vue.use(Vuex);
@@ -21,6 +27,9 @@ const store = new Vuex.Store({
 
 		//网络状态，用于下载提醒
 		networkState: 'unknown',
+
+
+		cartNum: 0
 	},
 	getters: {
 		// 获取网络状态
@@ -46,6 +55,11 @@ const store = new Vuex.Store({
 			removeToken();
 			removeUserInfo();
 		},
+
+		setCartNum(state, num) {
+			state.cartNum = num;
+		}
+
 	},
 	actions: {
 		networkStateChange({
@@ -57,7 +71,18 @@ const store = new Vuex.Store({
 			commit
 		}) {
 			commit('logout');
+		},
+
+		syncCartNum({
+			commit
+		}) {
+			http.get('/cart/getCartNum').then(res => {
+				let num = res.data.count;
+				commit('setCartNum', num);
+			})
 		}
+
+
 	}
 })
 

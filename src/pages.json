@@ -156,6 +156,19 @@
 					"bounce": "vertical"
 				}
 			}
+		},
+		{
+			"path": "pages/order/delivery",
+			"style": {
+				"navigationBarTitleText": "订单物流",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"bounce": "vertical"
+				}
+			}
 		}, {
 			"path": "pages/goods/detail",
 			"style": {

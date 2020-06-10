@@ -84,12 +84,14 @@
 </template>
 
 <script>
-import tuiTabs from '@/components/thorui/tui-tabs/tui-tabs.vue'
+import tuiTabs from '@/components/thorui/tui-tabs/tui-tabs.vue';
 import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell.vue';
 import tuiButton from '@/components/thorui/tui-button/tui-button.vue';
 import tuiLoadmore from '@/components/thorui/tui-loadmore/tui-loadmore.vue';
-import tuiNomore from '@/components/thorui/tui-nomore/tui-nomore.vue'
-	
+import tuiNomore from '@/components/thorui/tui-nomore/tui-nomore.vue';
+
+import { noLoginRedirect } from '@/utils/utils.js';
+
 export default {
 	components: {
 		tuiTabs,
@@ -124,7 +126,27 @@ export default {
 			scrollTop: 0
 		};
 	},
+	onShow() {
+
+	},
+
+	onLoad() {
+		this.initData();
+	},
+
 	methods: {
+		// 数据初始化
+		async initData() {
+			this.hasLogin = this.$mStore.getters.hasLogin;
+			if (this.hasLogin) {
+				// 已登录
+			} else {
+				// 未登录
+				
+				noLoginRedirect();
+
+			}
+		},
 		change(e) {
 			this.currentTab = e.index;
 		},

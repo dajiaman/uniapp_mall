@@ -46,7 +46,7 @@
 				</view>
 			</view>
 		</view>
-
+		
 		<view class="tui-product-category">
 			<view class="tui-category-item" v-for="(item, index) in category" :key="index" :data-key="item.name" @tap="more">
 				<image :src="'/static/images/mall/category/' + item.img" class="tui-category-img" mode="scaleToFill"></image>
@@ -92,39 +92,34 @@
 				<view class="tui-product-container">
 					<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 != 0">
 						<!--商品列表-->
-						<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
-							<image :src="'/static/images/mall/product/' + item.img + '.jpg'" class="tui-pro-img" mode="widthFix" />
-							<view class="tui-pro-content">
-								<view class="tui-pro-tit">{{ item.name }}</view>
-								<view>
-									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{ item.sale }}</text>
-										<text class="tui-factory-price">￥{{ item.factory }}</text>
-									</view>
-									<view class="tui-pro-pay">{{ item.payNum }}人付款</view>
-								</view>
-							</view>
-						</view>
-						<!--商品列表-->
-						<!-- <template is="productItem" data="{{item,index:index}}" /> -->
+						<goodsCard
+						:goodsId="index"
+						:imgUrl="'/static/images/mall/product/' + item.img + '.jpg'"
+						:title="item.name" 
+						:price="item.sale"
+						:constPrice="item.factory"
+						:payNum="item.payNum"
+						@goodscardClick="onCardClick"
+						></goodsCard>
+						
+												
 					</block>
 				</view>
 				<view class="tui-product-container">
 					<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 == 0">
 						<!--商品列表-->
-						<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
-							<image :src="'/static/images/mall/product/' + item.img + '.jpg'" class="tui-pro-img" mode="widthFix" />
-							<view class="tui-pro-content">
-								<view class="tui-pro-tit">{{ item.name }}</view>
-								<view>
-									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{ item.sale }}</text>
-										<text class="tui-factory-price">￥{{ item.factory }}</text>
-									</view>
-									<view class="tui-pro-pay">{{ item.payNum }}人付款</view>
-								</view>
-							</view>
-						</view>
+				
+							<goodsCard 
+							:goodsId="index"
+							:imgUrl="'/static/images/mall/product/' + item.img + '.jpg'"
+							:title="item.name" 
+							:price="item.sale"
+							:constPrice="item.factory"
+							:payNum="item.payNum"
+							@goodscard-click="onCardClick"
+							></goodsCard>
+							
+						
 						<!--商品列表-->
 						<!-- <template is="productItem" data="{{item,index:index}}" /> -->
 					</block>
@@ -143,11 +138,13 @@
 <script>
 import tuiIcon from '@/components/thorui/tui-icon/tui-icon.vue';
 import tuiLoadmore from '@/components/thorui/tui-loading/tui-loading.vue';
+import goodsCard from '@/biz_components/goods/goodsCard.vue'
 
 export default {
 	components: {
 		tuiIcon,
-		tuiLoadmore
+		tuiLoadmore,
+		goodsCard
 	},
 	data() {
 		return {
@@ -350,7 +347,12 @@ export default {
 			uni.navigateTo({
 				url: '/pages/search/search'
 			});
+		},
+	
+		onCardClick(goodsId){
+			// 跳转
 		}
+		
 	},
 	onPullDownRefresh: function() {
 		let loadData = JSON.parse(JSON.stringify(this.productList));
