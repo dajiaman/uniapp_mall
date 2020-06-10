@@ -1,7 +1,11 @@
-// const TransformPages = require('uni-read-pages')
-// const tfPages = new TransformPages()
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
+const IS_DEV = ['development'].includes(process.env.NODE_ENV)
+
 
 module.exports = {
+	
+	publicPath: IS_PROD ? '/uniapp_mall' : '/',
+	
   devServer: {
     // hot: true,
     // clientLogLevel: 'warning',
@@ -9,12 +13,5 @@ module.exports = {
     //   warnings: true,
     //   errors: true
     // }
-  },
-  // configureWebpack: {
-  //   plugins: [
-  //     new tfPages.webpack.DefinePlugin({
-  //       ROUTES: JSON.stringify(tfPages.routes),
-  //     }),
-  //   ],
-  // },
+  }
 }
